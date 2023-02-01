@@ -110,8 +110,12 @@ class TranslateHook
                         $site = $siteFinder->getSiteByPageId($currentRecord['pid']);
                         $language = $site->getDefaultLanguage();
                         $sourceLanguageIso = strtolower($language->getTwoLetterIsoCode());
-                        $targetLanguage = $site->getLanguageById($languageRecord['uid']);
-                        $targetLanguageIso = $targetLanguage->getTwoLetterIsoCode();
+                        if ($targetLanguage === null) {
+                            $targetLanguage = $site->getLanguageById($languageRecord['uid']);
+                            $targetLanguageIso = $targetLanguage->getTwoLetterIsoCode();
+                        } else {
+                            $targetLanguageIso = $targetLanguage['language_isocode'];
+                        }
 
                         if ($sourceLanguageCode !== 'auto') {
                             $deeplSourceIso = strtoupper($sourceLanguageIso);
